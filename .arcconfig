@@ -1,0 +1,6 @@
+{
+  "project.name" : "oktaawscli",
+  "phabricator.uri" : "https://signifyd.phacility.com/",
+  "history.immutable" : false,
+  "arc.land.onto.default" : "master"
+}

@@ -1,0 +1,15 @@
+{
+  "linters": {
+    "java": {
+      "type": "script-and-regex",
+      "include": "(\\.java$)",
+      "script-and-regex.script": "$CLEAN_CODE_DIR/run-checkstyle.sh ",
+      "script-and-regex.regex": "/^(.*)java:(?P<line>\\d+):(\\d+:)?(?P<message>.*)$/m"
+    },
+    "python": {
+      "type": "pep8",
+      "include": "(\\.py$)",
+      "flags": ["--max-line-length=120", "--ignore=W503"]
+    }
+  }
+}

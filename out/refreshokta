@@ -1,0 +1,3 @@
+#!/bin/bash
+
+java -classpath ~/.okta/*-signifyd.jar com.okta.tools.RefreshOktaAws $@
