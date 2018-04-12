@@ -13,15 +13,16 @@ read s3_bucket
 
 mvn -Dbuild.version=${build_version} package
 
-jar_path=target/okta-aws-cli-${build_version}-signifyd.jar
+jar_path=target
+jar_name=okta-aws-cli-${build_version}-signifyd.jar
 
-if [ ! -f $jar_path ]; then
-  echo "Couldn't find $jar_path"
+if [ ! -f ${jar_path}/${jar_name} ]; then
+  echo "Couldn't find ${jar_path}/${jar_name}"
   exit 1
 fi
 
 tar_name=okta-aws-cli-${build_version}.tgz
-tar zcvf $tar_name $jar_path bin/* config.properties
+tar zcvf $tar_name bin/* config.properties -C $jar_path $jar_name
 
 echo "Created $tar_name"
 
