@@ -25,6 +25,6 @@ public class RefreshOktaAws {
     }
 
     String profileName = OktaAwsConfig.createAwscli().run(Instant.now());
-    System.out.println("export AWS_PROFILE=" + profileName);
+    System.out.println("export AWS_PROFILE=" + profileName + "_source");
     }
 }
