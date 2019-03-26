@@ -1,6 +1,8 @@
 package com.okta.tools;
 
 import java.time.Instant;
+import com.amazonaws.services.securitytoken.model.AssumeRoleWithSAMLResult;
+import com.amazonaws.services.securitytoken.model.AssumedRoleUser;
 
 /**
  * A simple class to allow users to refresh their okta/aws session without
@@ -8,8 +10,25 @@ import java.time.Instant;
  */
 public class RefreshOktaAws {
 
-    private RefreshOktaAws() { }
+    public RefreshOktaAws() { }
+    
+    public void run(String[] args) throws Exception {
+        if (args.length > 0 && "logout".equals(args[0])) {
+            OktaAwsCliEnvironment oktaEnvironment = OktaAwsConfig.loadEnvironment();
+            OktaAwsCliAssumeRole role = OktaAwsCliAssumeRole.withEnvironment(oktaEnvironment);
+            role.logoutSession();
+            System.out.println("You have been logged out");
+            System.exit(0);
+            return;
+        }
 
+        OktaAwsCliEnvironment oktaEnvironment = OktaAwsConfig.loadEnvironment();
+        OktaAwsCliAssumeRole role = OktaAwsCliAssumeRole.withEnvironment(oktaEnvironment);
+        AssumeRoleWithSAMLResult awsSamlRole = (AssumeRoleWithSAMLResult)AWSCredentialsUtil.getAWSCredential();
+        String awsProfile = awsSamlRole.getAssumedRoleUser().getAssumedRoleId();
+        System.out.println("export AWS_PROFILE=" + awsProfile + "_source");
+
+    }
     /**
      * If the session has expired, prompts the user for credentials
      * Echoes the current profile or the one that was refreshed.
@@ -17,14 +36,7 @@ public class RefreshOktaAws {
      * Accepts a logout command to end the current session.
      */
     public static void main(String[] args) throws Exception {
-        if (args.length > 0 && "logout".equals(args[0])) {
-        OktaAwsConfig.createAwscli().logoutSession();
-        System.out.println("You have been logged out");
-        System.exit(0);
-        return;
-    }
-
-    String profileName = OktaAwsConfig.createAwscli().run(Instant.now());
-    System.out.println("export AWS_PROFILE=" + profileName + "_source");
+        RefreshOktaAws refreshOktaAws = new RefreshOktaAws();
+        refreshOktaAws.run(args);
     }
 }
