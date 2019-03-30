@@ -97,7 +97,7 @@ public class RoleHelper {
                 .withPrincipalArn(principalArn)
                 .withRoleArn(roleArn)
                 .withSAMLAssertion(samlResponse)
-                .withDurationSeconds(3600);
+                .withDurationSeconds(43200);
     }
 
     private List<AccountOption> getAvailableRoles(String samlResponse) throws IOException {
