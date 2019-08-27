@@ -34,6 +34,9 @@ public class ProfileHelper {
 
     private String getProfileName(AssumeRoleWithSAMLResult assumeResult, String oktaProfile) {
         String credentialsProfileName;
+        // AWS SDK V2 doesn't tolerate certain chars in the profile name.
+        // https://signifyd.atlassian.net/browse/DOPS-1613
+        oktaProfile = oktaProfile.replaceAll("[^A-Za-z0-9_\\-]", "_");
         if (StringUtils.isNotBlank(oktaProfile)) {
             credentialsProfileName = oktaProfile;
         } else {
